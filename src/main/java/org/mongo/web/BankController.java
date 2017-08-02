@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 /**
@@ -40,11 +39,6 @@ public class BankController {
         modelAndView.addObject("contacts", contactService.getAll());
         modelAndView.addObject("banks", bankService.getAll(pageable));
         return modelAndView;
-    }
-
-    @RequestMapping(value = "/search/form", method = RequestMethod.POST)
-    public ModelAndView searchForm(@ModelAttribute("bank") Bank bank) {
-        return new ModelAndView("search_contact");
     }
 
     @RequestMapping(value = "/search/contact", method = RequestMethod.POST)
@@ -83,14 +77,9 @@ public class BankController {
     }
 
     @RequestMapping(value = "/edit/bank", method = RequestMethod.GET)
-    public ModelAndView showEditForm(@RequestParam Long id, HttpServletRequest request) {
-        ModelAndView modelAndView = new ModelAndView("add_bank", "bank", bankService.get(id));
+    public ModelAndView showEditForm(@RequestParam Long id) {
         // set session scoped attribute
-        HttpSession session = request.getSession();
-        session.setAttribute("name", "session scoped attribute");
-        // set request scoped attribute
-        request.setAttribute("name", "request scoped attribute");
-        return modelAndView;
+        return new ModelAndView("add_bank", "bank", bankService.get(id));
     }
 
     @RequestMapping(value = "/delete/bank", method = RequestMethod.GET)
