@@ -7,6 +7,8 @@ import org.mongo.services.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author lyozniy.sergey on 17 Jul 2017.
  */
@@ -23,5 +25,10 @@ public class BankServiceImpl extends CrudServiceImpl<Bank> implements BankServic
     @Override
     protected CrudDao<Bank> getCrudDao() {
         return bankDao;
+    }
+
+    @Override
+    public List<Bank> getByPattern(String pattern) {
+        return bankDao.getByPattern(pattern);
     }
 }

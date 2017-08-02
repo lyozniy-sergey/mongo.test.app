@@ -13,6 +13,7 @@ import java.util.List;
  */
 public interface ContactDao extends CrudDao<Contact> {
     List<Contact> getById(Collection<Long> ids);
+
     List<Contact> getByPattern(String pattern);
 
     List<DBObject> getAggregationAmountByField(String field, String alias, Pageable pageable);

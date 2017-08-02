@@ -52,7 +52,7 @@ public class Bank extends Entity {
     }
 
     public List<Contact> getContacts() {
-        return contacts != null ? Collections.unmodifiableList(contacts) : null;
+        return contacts != null ? Collections.unmodifiableList(contacts) : Collections.emptyList();
     }
 
     public void setContacts(List<Contact> contacts) {
@@ -88,5 +88,46 @@ public class Bank extends Entity {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public static Builder builder() {
+        return new Builder(new Bank());
+    }
+
+    public static final class Builder {
+        private final Bank bank;
+
+        private Builder(Bank bank) {
+            this.bank = bank;
+        }
+
+        public Builder setName(String name) {
+            bank.setName(name);
+            return this;
+        }
+
+        public Builder setInfo(String info) {
+            bank.setInfo(info);
+            return this;
+        }
+
+        public Builder setAddress(Address address) {
+            bank.setAddress(address);
+            return this;
+        }
+
+        public Builder setContacts(List<Contact> contacts) {
+            bank.setContacts(contacts);
+            return this;
+        }
+
+        public Builder setContact(Contact contact) {
+            bank.setContact(contact);
+            return this;
+        }
+
+        public Bank build() {
+            return bank;
+        }
     }
 }

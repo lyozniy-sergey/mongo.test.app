@@ -8,9 +8,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mongo.config.MongoTestConfig;
 import org.mongo.model.Address;
+import org.mongo.model.Bank;
 import org.mongo.model.Contact;
 import org.mongo.model.Sequence;
 import org.mongo.services.AddressService;
+import org.mongo.services.BankService;
 import org.mongo.services.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -47,8 +49,11 @@ public class MongoIntegrationTest {
     @Autowired
     private AddressService addressService;
 
-    private Contact contact;
+    @Autowired
+    private BankService bankService;
+
     private List<Contact> contacts;
+    private List<Bank> banks;
 
     private static Map<String, Integer> contactAggregations() {
         return new HashMap<String, Integer>() {
@@ -71,14 +76,25 @@ public class MongoIntegrationTest {
         };
     }
 
-    @Before
-    public void setUp() throws Exception {
-        contacts = createContacts();
-        contact = contacts.get(0);
+    private static Map<String, Integer> bankContacts() {
+        return new HashMap<String, Integer>() {
+            {
+                put("Privatbank", 2);
+                put("Procredit", 1);
+                put("Alfabank", 0);
+                put("DB", 3);
+            }
+        };
     }
 
-    private List<Contact> createContacts() {
+    @Before
+    public void setUp() throws Exception {
         final List<Address> addresses = createAddresses();
+        contacts = createContacts(addresses);
+        banks = createBanks(contacts, addresses);
+    }
+
+    private List<Contact> createContacts(List<Address> addresses) {
         return Arrays.asList(
                 Contact
                         .builder()
@@ -133,6 +149,35 @@ public class MongoIntegrationTest {
         );
     }
 
+    private List<Bank> createBanks(List<Contact> contacts, List<Address> addresses) {
+        return Arrays.asList(
+                Bank
+                        .builder()
+                        .setName("Privatbank")
+                        .setInfo("Private Bank Ukraine")
+                        .setContacts(contacts.subList(0, 2))
+                        .setAddress(addresses.get(0))
+                        .build(),
+                Bank
+                        .builder()
+                        .setName("Procredit")
+                        .setInfo("Procredit bank")
+                        .setContacts(contacts.subList(2, 3))
+                        .setAddress(addresses.get(0)).build(),
+                Bank
+                        .builder()
+                        .setName("Alfabank")
+                        .setInfo("Alfa Bank Ukraine")
+                        .setAddress(addresses.get(1)).build(),
+                Bank
+                        .builder()
+                        .setName("DB")
+                        .setInfo("Deutch bank Germany")
+                        .setContacts(contacts.subList(3, 6))
+                        .setAddress(addresses.get(2)).build()
+        );
+    }
+
     private List<Address> createAddresses() {
         return Arrays.asList(
                 Address
@@ -182,8 +227,10 @@ public class MongoIntegrationTest {
     public void tearDown() throws Exception {
         mongoOperations.dropCollection(Contact.class);
         mongoOperations.dropCollection(Address.class);
+        mongoOperations.dropCollection(Bank.class);
         mongoOperations.updateFirst(Query.query(Criteria.where("id").is("contacts")), Update.update("sequence", 0L), Sequence.class);
-        mongoOperations.updateFirst(Query.query(Criteria.where("id").is("setAddress")), Update.update("sequence", 0L), Sequence.class);
+        mongoOperations.updateFirst(Query.query(Criteria.where("id").is("address")), Update.update("sequence", 0L), Sequence.class);
+        mongoOperations.updateFirst(Query.query(Criteria.where("id").is("banks")), Update.update("sequence", 0L), Sequence.class);
     }
 
     @Test
@@ -195,27 +242,31 @@ public class MongoIntegrationTest {
     }
 
     @Test
-    public void testSave() {
+    public void testContactSave() {
+        Contact contact = contacts.get(0);
         contactService.add(contact);
         assertTrue("Expected only one added contact", contactService.getAll().size() == 1);
-        assertTrue("Expected only one contact with id " + contact.getId(), contactService.get(contact.getId()) != null);
+        assertTrue(format("Expected only one contact with id %s", contact.getId()), contactService.get(contact.getId()) != null);
     }
 
     @Test
-    public void testFindByName() {
+    public void testFindContactByName() {
+        Contact contact = contacts.get(1);
         contactService.add(contact);
         List<Contact> matches = contactService.getByPattern(contact.getName());
-        assertEquals("Expected only one contact " + matches.size(), 1, matches.size());
+        assertEquals("Expected only one contact", 1, matches.size());
     }
 
     @Test
-    public void testFindByLastName() {
+    public void testFindContactByLastName() {
+        Contact contact = contacts.get(2);
         contactService.add(contact);
         assertEquals("Expected only one contact", 1, contactService.getByPattern(contact.getLastName()).size());
     }
 
     @Test
-    public void testUpdateLastName() {
+    public void testUpdateContactByLastName() {
+        Contact contact = contacts.get(3);
         contactService.add(contact);
         assertEquals("Expected only one contact", 1, contactService.getByPattern(contact.getLastName()).size());
 
@@ -224,12 +275,13 @@ public class MongoIntegrationTest {
         contact = Contact.builder(contact).setLastName(updatedLastName).build();
         contactService.update(contact);
 
-        assertEquals("Expected only one contact with updated last setName", 1, contactService.getByPattern(updatedLastName).size());
-        assertEquals("Expected zero contact with old last setName", 0, contactService.getByPattern(oldLastName).size());
+        assertEquals("Expected only one contact with updated last name", 1, contactService.getByPattern(updatedLastName).size());
+        assertEquals("Expected zero contact with old last name", 0, contactService.getByPattern(oldLastName).size());
     }
 
     @Test
     public void testRemoveContact() {
+        Contact contact = contacts.get(4);
         contactService.add(contact);
         assertTrue("Expected only one contact", contactService.get(contact.getId()) != null);
 
@@ -242,8 +294,7 @@ public class MongoIntegrationTest {
     public void testSaveContactsWithAddresses() {
         contacts.forEach(c -> contactService.add(c));
         List<Contact> contactList = contactService.getAll();
-        assertTrue(format("Expected %s added contact",contactList.size()), contactList.size() == 7);
-        assertTrue("Expected only one contact with id " + contact.getId(), contactService.get(contact.getId()) != null);
+        assertTrue(format("Expected %s added contact", contactList.size()), contactList.size() == 7);
         List<Address> addresses = addressService.getAll();
         assertEquals(format("Expected %s unique addresses", addresses.size()), 5, addresses.size());
     }
@@ -272,5 +323,53 @@ public class MongoIntegrationTest {
             Integer count = ca.get(name);
             assertEquals(format("Expected %s of %s", count, name), count, o.get(alias));
         });
+    }
+
+    @Test
+    public void testBankSave() {
+        Bank bank = banks.get(0);
+        bankService.add(bank);
+        assertTrue("Expected only one added bank", bankService.getAll().size() == 1);
+        assertTrue(format("Expected only one bank with id %s", bank.getId()), bankService.get(bank.getId()) != null);
+    }
+
+    @Test
+    public void testUpdateBankByName() {
+        Bank bank = banks.get(1);
+        bankService.add(bank);
+        assertEquals("Expected only one bank", 1, bankService.getByPattern(bank.getName()).size());
+
+        String oldLastName = bank.getName();
+        String updatedLastName = "UpdatedBankName";
+        bank.setName(updatedLastName);
+        bank.setInfo("UpdatedBankInfo");
+        bankService.update(bank);
+
+        assertEquals("Expected only one bank with updated last name", 1, bankService.getByPattern(updatedLastName).size());
+        assertEquals("Expected zero bank with old last name", 0, bankService.getByPattern(oldLastName).size());
+    }
+
+    @Test
+    public void testRemoveBank() {
+        Bank bank = banks.get(2);
+        bankService.add(bank);
+        assertTrue("Expected only one bank", bankService.get(bank.getId()) != null);
+
+        bankService.remove(bank.getId());
+
+        assertTrue("Expected zero bank", bankService.get(bank.getId()) == null);
+    }
+
+    @Test
+    public void testFindBankContacts() {
+        banks.forEach(b -> bankService.add(b));
+        assertEquals(format("Expected %s banks", banks.size()), banks.size(), bankService.getCount());
+
+        Map<String, Integer> bankContacts = bankContacts();
+        bankService.getAll().forEach(b -> {
+                    int expectedCount = bankContacts.get(b.getName());
+                    assertEquals(format("Expected %s contacts for bank %s", expectedCount, b.getName()), expectedCount, b.getContacts().size());
+                }
+        );
     }
 }
