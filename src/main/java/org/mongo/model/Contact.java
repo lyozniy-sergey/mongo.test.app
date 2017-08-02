@@ -56,6 +56,38 @@ public class Contact extends Entity implements Serializable {
         return Collections.unmodifiableMap(aggregations);
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public void setAggregations(Map<String, String> aggregations) {
+        this.aggregations = aggregations;
+    }
+
+    private void setAggregation(String key, String value) {
+        if (aggregations == null) {
+            aggregations = new HashMap<>();
+        }
+        aggregations.put(key, value);
+    }
+
+
     public static Function<Contact, String> getContactName() {
         return Contact::getName;
     }
@@ -80,40 +112,37 @@ public class Contact extends Entity implements Serializable {
         }
 
         public Builder setName(String name) {
-            contact.name = name;
+            contact.setName(name);
             return this;
         }
 
         public Builder setLastName(String lastName) {
-            contact.lastName = lastName;
+            contact.setLastName(lastName);
             return this;
         }
 
         public Builder setNumber(String number) {
-            contact.number = number;
+            contact.setNumber(number);
             return this;
         }
 
         public Builder setEmail(String email) {
-            contact.email = email;
+            contact.setEmail(email);
             return this;
         }
 
         public Builder setAddress(Address address) {
-            contact.address = address;
+            contact.setAddress(address);
             return this;
         }
 
-        public Builder setAggregations(Map<String,String> aggregations) {
-            contact.aggregations = aggregations;
+        public Builder setAggregations(Map<String, String> aggregations) {
+            contact.setAggregations(aggregations);
             return this;
         }
 
         public Builder setAggregation(String key, String value) {
-            if (contact.aggregations == null) {
-                contact.aggregations = new HashMap<>();
-            }
-            contact.aggregations.put(key, value);
+            contact.setAggregation(key, value);
             return this;
         }
 

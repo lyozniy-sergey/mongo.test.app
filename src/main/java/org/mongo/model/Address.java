@@ -18,9 +18,6 @@ public class Address extends Entity implements Serializable {
     private String house;
     private Integer apartment;
 
-    private Address() {
-    }
-
     public String getCity() {
         return city;
     }
@@ -44,6 +41,29 @@ public class Address extends Entity implements Serializable {
     public Integer getApartment() {
         return apartment;
     }
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setHouse(String house) {
+        this.house = house;
+    }
+
+    public void setApartment(Integer apartment) {
+        this.apartment = apartment;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public static Builder builder() {
         return new Builder(new Address());
@@ -57,32 +77,32 @@ public class Address extends Entity implements Serializable {
         }
 
         public Builder setCity(String city) {
-            address.city = city;
+            address.setCity(city);
             return this;
         }
 
         public Builder setStreet(String street) {
-            address.street = street;
+            address.setStreet(street);
             return this;
         }
 
         public Builder setCountry(String country) {
-            address.country = country;
+            address.setCountry(country);
             return this;
         }
 
         public Builder setHouse(String house) {
-            address.house = house;
+            address.setHouse(house);
             return this;
         }
 
         public Builder setApartment(Integer apartment) {
-            address.apartment = apartment;
+            address.setApartment(apartment);
             return this;
         }
 
         public Builder setState(String state) {
-            address.state = state;
+            address.setState(state);
             return this;
         }
 
