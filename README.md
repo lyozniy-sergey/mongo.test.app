@@ -9,5 +9,5 @@ There is integration test for testing crud and aggregation operations
 ```
 mvn clean package
 ```
-
+### Application sample
 ![Screenshot](screen.jpg "Sample")
