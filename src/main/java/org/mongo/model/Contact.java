@@ -22,6 +22,8 @@ public class Contact extends Entity implements Serializable {
     private String lastName;
     private String number;
     private String email;
+    private Integer age;
+    private Double balance;
     @DBRef
     @CascadeSave
     private Address address;
@@ -52,8 +54,16 @@ public class Contact extends Entity implements Serializable {
         return address;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
     public Map getAggregations() {
-        return Collections.unmodifiableMap(aggregations);
+        return aggregations != null ? Collections.unmodifiableMap(aggregations) : null;
     }
 
     public void setName(String name) {
@@ -70,6 +80,14 @@ public class Contact extends Entity implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 
     public void setAddress(Address address) {
@@ -128,6 +146,16 @@ public class Contact extends Entity implements Serializable {
 
         public Builder setEmail(String email) {
             contact.setEmail(email);
+            return this;
+        }
+
+        public Builder setAge(Integer age) {
+            contact.setAge(age);
+            return this;
+        }
+
+        public Builder setBalance(Double balance) {
+            contact.setBalance(balance);
             return this;
         }
 

@@ -24,6 +24,7 @@
                         code="table.bank.name"/></a></th>
                 <th><a href="/banks?sort=info,${direction}&page=${page}&size=${size}"><spring:message
                         code="table.bank.info"/></a></th>
+                <th><spring:message code="table.contact.count"/></th>
                 <th><spring:message code="table.contact.action"/></th>
             </tr>
             <thead>
@@ -33,6 +34,7 @@
                 <td>${bank.id}</td>
                 <td>${bank.name}</td>
                 <td>${bank.info}</td>
+                <td>${bank.contacts.size()}</td>
                 <td><a href="/edit/bank?id=${bank.id}">Edit</a> | <a href="/delete/bank?id=${bank.id}">Delete</a></td>
             <tr>
             </c:forEach>
@@ -60,8 +62,10 @@
                 <th><a href="/?sort=lastName,${direction}&page=${page}&size=${size}"><spring:message
                         code="table.contact.lastName"/></a></th>
                 <th><a href="/?sort=number,${direction}&page=${page}&size=${size}"><spring:message
-                        code="table.contact.Number"/></a></th>
-                <th><a href="/?sort=email,${direction}&page=${page}&size=${size}"><spring:message
+                        code="table.contact.age"/></a></th>
+                <th><a href="/?sort=balance,${direction}&page=${page}&size=${size}"><spring:message
+                        code="table.contact.balance"/></a></th>
+                <th><a href="/?sort=age,${direction}&page=${page}&size=${size}"><spring:message
                         code="table.contact.email"/></a></th>
                 <th><spring:message code="table.contact.action"/></th>
             </tr>
@@ -72,18 +76,19 @@
                 <td>${contact.id}</td>
                 <td>${contact.name} (${contact.aggregations.name})</td>
                 <td>${contact.lastName} (${contact.aggregations.lastName})</td>
-                <td>${contact.number}</td>
+                <td>${contact.age}</td>
+                <td>${contact.balance}</td>
                 <td>${contact.email}</td>
                 <td><a href="/edit/contact?id=${contact.id}">Edit</a> | <a href="/delete/contact?id=${contact.id}">Delete</a></td>
             <tr>
                 </c:forEach>
             <tr>
-                <td colspan="6">
+                <td colspan="7">
                     <a href="/add/contact"><spring:message code="table.contact.add"/></a>
                 </td>
             </tr>
             </tr>
-            <td colspan="6">
+            <td colspan="7">
             </td>
             </tr>
             <tr>

@@ -23,7 +23,6 @@ import java.util.Collections;
  */
 @PropertySource("classpath:database.dev.properties")
 @EnableMongoRepositories
-//@Profile("prod")
 public class MongoConfig extends AbstractMongoConfiguration {
     @Autowired
     private Environment env;

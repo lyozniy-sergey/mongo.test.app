@@ -1,5 +1,6 @@
 package org.mongo.config;
 
+import org.mongo.web.BankController;
 import org.mongo.web.ContactController;
 import org.springframework.beans.PropertyEditorRegistrar;
 import org.springframework.beans.factory.config.CustomEditorConfigurer;
@@ -20,7 +21,7 @@ import java.util.List;
 /**
  * @author lyozniy.sergey on 19 Jul 2017.
  */
-@ComponentScan(basePackageClasses = {ContactController.class})
+@ComponentScan(basePackageClasses = {ContactController.class, BankController.class})
 @EnableWebMvc
 @EnableSpringDataWebSupport
 public class WebConfig extends WebMvcConfigurerAdapter {

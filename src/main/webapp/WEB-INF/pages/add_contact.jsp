@@ -26,6 +26,14 @@
             <td><form:input path="email" /></td>
         </tr>
         <tr>
+            <td><spring:message code="table.contact.age"/>:</td>
+            <td><form:input path="age" /></td>
+        </tr>
+        <tr>
+            <td><spring:message code="table.contact.balance"/>:</td>
+            <td><form:input path="balance" /></td>
+        </tr>
+        <tr>
             <td><spring:message code="table.address.country"/>:</td>
             <td><form:input path="address.country" /></td>
         </tr>
