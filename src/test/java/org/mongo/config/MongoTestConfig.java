@@ -3,6 +3,7 @@ package org.mongo.config;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
+import org.mongo.listener.BankCascadeSaveMongoEventListener;
 import org.mongo.listener.CascadeSaveMongoEventListener;
 import org.mongo.listener.ContactCascadeSaveMongoEventListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 /**
  * @author lyozniy.sergey on 31 Jul 2017.
  */
-@ComponentScan({ "org.mongo.dao", "org.mongo.services" })
+@ComponentScan({"org.mongo.dao", "org.mongo.services"})
 @PropertySource("classpath:database.test.properties")
 @Profile("test")
 public class MongoTestConfig extends AbstractMongoConfiguration {
@@ -42,5 +43,10 @@ public class MongoTestConfig extends AbstractMongoConfiguration {
     @Bean
     public CascadeSaveMongoEventListener contactCascadingMongoEventListener() {
         return new ContactCascadeSaveMongoEventListener();
+    }
+
+    @Bean
+    public CascadeSaveMongoEventListener bankCascadingMongoEventListener() {
+        return new BankCascadeSaveMongoEventListener();
     }
 }

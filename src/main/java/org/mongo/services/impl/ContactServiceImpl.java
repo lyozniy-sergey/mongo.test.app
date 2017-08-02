@@ -49,7 +49,7 @@ public class ContactServiceImpl extends CrudServiceImpl<Contact> implements Cont
     public List<Contact> getAmountAggregationFor(Pageable pageable, List<Contact> contacts, List<Contact.AggregationOptions> options) {
         options.forEach(o -> {
             List<DBObject> aggregations = contactDao.getAggregationAmountByField(o.getField(), o.getAlias(), pageable);
-            contacts.forEach(contact -> contact.addAggregation(o.getField(), getAggregation(o.getField(), o.getAlias(), aggregations, contact.getName())));
+            contacts.forEach(contact -> Contact.builder(contact).setAggregation(o.getField(), getAggregation(o.getField(), o.getAlias(), aggregations, contact.getName())).build());
         });
         return contacts;
     }

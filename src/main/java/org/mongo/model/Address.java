@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author lyozniy.sergey on 17 Jul 2017.
  */
 @Document(collection = Address.COLLECTION_NAME)
-public class Address extends Entity implements Serializable, Cloneable {
+public class Address extends Entity implements Serializable {
     public static final String COLLECTION_NAME = "address";
 
     private String city;
@@ -18,58 +18,77 @@ public class Address extends Entity implements Serializable, Cloneable {
     private String house;
     private Integer apartment;
 
-    public Address() {
+    private Address() {
     }
 
     public String getCity() {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getStreet() {
         return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
     }
 
     public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public String getState() {
+        return state;
     }
 
     public String getHouse() {
         return house;
     }
 
-    public void setHouse(String house) {
-        this.house = house;
-    }
-
     public Integer getApartment() {
         return apartment;
     }
 
-    public void setApartment(Integer apartment) {
-        this.apartment = apartment;
+    public static Builder builder() {
+        return new Builder(new Address());
     }
 
-    public String getState() {
-        return state;
-    }
+    public static final class Builder {
+        private final Address address;
 
-    public void setState(String state) {
-        this.state = state;
-    }
+        private Builder(Address address) {
+            this.address = address;
+        }
 
-    public Address clone() throws CloneNotSupportedException {
-        return (Address) super.clone();
+        public Builder setCity(String city) {
+            address.city = city;
+            return this;
+        }
+
+        public Builder setStreet(String street) {
+            address.street = street;
+            return this;
+        }
+
+        public Builder setCountry(String country) {
+            address.country = country;
+            return this;
+        }
+
+        public Builder setHouse(String house) {
+            address.house = house;
+            return this;
+        }
+
+        public Builder setApartment(Integer apartment) {
+            address.apartment = apartment;
+            return this;
+        }
+
+        public Builder setState(String state) {
+            address.state = state;
+            return this;
+        }
+
+        public Address build() {
+            return address;
+        }
+
     }
 }

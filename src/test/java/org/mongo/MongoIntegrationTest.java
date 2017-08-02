@@ -21,7 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,224 +71,111 @@ public class MongoIntegrationTest {
         };
     }
 
-//    public static Collection<Contact> contacts() {
-//        return Arrays.asList(
-//                new Contact("Adam", "Patterson", "2345", "adam@com.ua") {
-//                    {
-//                        setAddress(new Address() {
-//                            {
-//                                setCountry("Ukraine");
-//                                setCity("Kiev");
-//                                setState("Kievskiy");
-//                                setStreet("Mazepa");
-//                                setHouse("145a");
-//                                setApartment(11);
-//                            }
-//                        });
-//                    }
-//                },
-//                new Contact("Serena", "Williams", "1234", "serena@com.ua") {
-//                    {
-//                        setAddress(new Address() {
-//                            {
-//                                setCountry("Ukraine");
-//                                setCity("Kiev");
-//                                setState("Kievskiy");
-//                                setStreet("Mazepa");
-//                                setHouse("145a");
-//                                setApartment(11);
-//                            }
-//                        });
-//                    }
-//                },
-//                new Contact("Bob", "Fisher", "4721", "bob@com.ua") {
-//                    {
-//                        setAddress(new Address() {
-//                            {
-//                                setCountry("Ukraine");
-//                                setCity("Kiev");
-//                                setState("Kievskiy");
-//                                setStreet("Malitenka");
-//                                setHouse("11");
-//                                setApartment(5);
-//                            }
-//                        });
-//                    }
-//                },
-//                new Contact("Venera", "Williams", "5432", "venera@com.ua") {
-//                    {
-//                        setAddress(new Address() {
-//                            {
-//                                setCountry("Ukraine");
-//                                setCity("Lvov");
-//                                setState("Lvovskaya");
-//                                setStreet("Malitenka");
-//                                setHouse("11");
-//                                setApartment(5);
-//                            }
-//                        });
-//                    }
-//                },
-//                new Contact("Roger", "Federrer", "8482", "roger@com.ua") {
-//                    {
-//                        setAddress(new Address() {
-//                            {
-//                                setCountry("Ukraine");
-//                                setCity("Lvov");
-//                                setState("Lvovskaya");
-//                                setStreet("Malitenka");
-//                                setHouse("11");
-//                                setApartment(5);
-//                            }
-//                        });
-//
-//                    }
-//                },
-//                new Contact("Adam", "Jons", "6384", "gary@com.ua") {
-//                    {
-//                        setAddress(new Address() {
-//                            {
-//                                setCountry("Germany");
-//                                setCity("Munchin");
-//                                setState("Bavarskiy");
-//                                setStreet("Otto");
-//                                setHouse("55");
-//                                setApartment(78);
-//                            }
-//                        });
-//                    }
-//                },
-//                new Contact("Roy", "Jons", "7290", "roy@com.ua") {
-//                    {
-//                        setAddress(new Address() {
-//                            {
-//                                setCountry("Spain");
-//                                setCity("Barselona");
-//                                setState("Barselonskaya");
-//                                setStreet("Paolo");
-//                                setHouse("68b");
-//                                setApartment(9);
-//                            }
-//                        });
-//                    }
-//                }
-//        );
-//    }
-
     @Before
     public void setUp() throws Exception {
         contacts = createContacts();
-//        contact = new Contact("Tom", "Galasky", "1831", "tom@com.ua");
         contact = contacts.get(0);
     }
 
     private List<Contact> createContacts() {
         final List<Address> addresses = createAddresses();
-        Contact contact = new Contact("Adam", "Patterson", "2345", "adam@com.ua");
-        contact.setAddress(addresses.get(0));
-        return Collections.singletonList(contact);
-
-//        return Arrays.asList(
-//                new Contact("Adam", "Patterson", "2345", "adam@com.ua") {
-//                    {
-//                        setAddress(addresses.get(0));
-//                    }
-//                },
-//                new Contact("Serena", "Williams", "1234", "serena@com.ua") {
-//                    {
-//                        setAddress(addresses.get(0));
-//                    }
-//                },
-//                new Contact("Bob", "Fisher", "4721", "bob@com.ua") {
-//                    {
-//                        setAddress(addresses.get(1));
-//                    }
-//                },
-//                new Contact("Venera", "Williams", "5432", "venera@com.ua") {
-//                    {
-//                        setAddress(addresses.get(1));
-//                    }
-//                },
-//                new Contact("Roger", "Federrer", "8482", "roger@com.ua") {
-//                    {
-//                        setAddress(addresses.get(2));
-//
-//                    }
-//                },
-//                new Contact("Adam", "Jons", "6384", "gary@com.ua") {
-//                    {
-//                        setAddress(addresses.get(3));
-//                    }
-//                },
-//                new Contact("Roy", "Jons", "7290", "roy@com.ua") {
-//                    {
-//                        setAddress(addresses.get(4));
-//                    }
-//                }
-//        );
+        return Arrays.asList(
+                Contact
+                        .builder()
+                        .setName("Adam")
+                        .setLastName("Patterson")
+                        .setNumber("2345")
+                        .setEmail("adam@com.ua")
+                        .setAddress(addresses.get(0))
+                        .build(),
+                Contact
+                        .builder()
+                        .setName("Serena")
+                        .setLastName("Williams")
+                        .setNumber("1234")
+                        .setEmail("serena@com.ua")
+                        .setAddress(addresses.get(0)).build(),
+                Contact
+                        .builder()
+                        .setName("Bob")
+                        .setLastName("Fisher")
+                        .setNumber("4721")
+                        .setEmail("bob@com.ua")
+                        .setAddress(addresses.get(1)).build(),
+                Contact
+                        .builder()
+                        .setName("Venera")
+                        .setLastName("Williams")
+                        .setNumber("5432")
+                        .setEmail("venera@com.ua")
+                        .setAddress(addresses.get(1)).build(),
+                Contact
+                        .builder()
+                        .setName("Roger")
+                        .setLastName("Federrer")
+                        .setNumber("8482")
+                        .setEmail("roger@com.ua")
+                        .setAddress(addresses.get(2)).build(),
+                Contact
+                        .builder()
+                        .setName("Adam")
+                        .setLastName("Jons")
+                        .setNumber("6384")
+                        .setEmail("gary@com.ua")
+                        .setAddress(addresses.get(3)).build(),
+                Contact
+                        .builder()
+                        .setName("Roy")
+                        .setLastName("Jons")
+                        .setNumber("7290")
+                        .setEmail("roy@com.ua")
+                        .setAddress(addresses.get(4)).build()
+        );
     }
 
     private List<Address> createAddresses() {
-        Address address = new Address();
-        address.setCountry("Ukraine");
-        address.setCity("Kiev");
-        address.setState("Kievskiy");
-        address.setStreet("Mazepa");
-        address.setHouse("145a");
-        address.setApartment(11);
-        return Collections.singletonList(address);
-//        return Arrays.asList(
-//                new Address() {
-//                    {
-//                        setCountry("Ukraine");
-//                        setCity("Kiev");
-//                        setState("Kievskiy");
-//                        setStreet("Mazepa");
-//                        setHouse("145a");
-//                        setApartment(11);
-//                    }
-//                },
-//                new Address() {
-//                    {
-//                        setCountry("Ukraine");
-//                        setCity("Kiev");
-//                        setState("Kievskiy");
-//                        setStreet("Malutenka");
-//                        setHouse("11");
-//                        setApartment(5);
-//                    }
-//                },
-//                new Address() {
-//                    {
-//                        setCountry("Ukraine");
-//                        setCity("Lvov");
-//                        setState("Lvovskaya");
-//                        setStreet("Malitenka");
-//                        setHouse("11");
-//                        setApartment(5);
-//                    }
-//                },
-//                new Address() {
-//                    {
-//                        setCountry("Germany");
-//                        setCity("Munchin");
-//                        setState("Bavarskiy");
-//                        setStreet("Otto");
-//                        setHouse("55");
-//                        setApartment(78);
-//                    }
-//                },
-//                new Address() {
-//                    {
-//                        setCountry("Spain");
-//                        setCity("Barselona");
-//                        setState("Barselonskaya");
-//                        setStreet("Paolo");
-//                        setHouse("68b");
-//                        setApartment(9);
-//                    }
-//                }
-//        );
+        return Arrays.asList(
+                Address
+                        .builder()
+                        .setCountry("Ukraine")
+                        .setCity("Kiev")
+                        .setState("Kievskiy")
+                        .setStreet("Mazepa")
+                        .setHouse("145a")
+                        .setApartment(11).build(),
+                Address
+                        .builder()
+                        .setCountry("Ukraine")
+                        .setCity("Kiev")
+                        .setState("Kievskiy")
+                        .setStreet("Malutenka")
+                        .setHouse("11")
+                        .setApartment(5).build(),
+                Address
+                        .builder()
+                        .setCountry("Ukraine")
+                        .setCity("Lvov")
+                        .setState("Lvovskaya")
+                        .setStreet("Eksplonadna")
+                        .setHouse("12")
+                        .setApartment(5).build(),
+                Address
+                        .builder()
+                        .setCountry("Germany")
+                        .setCity("Munchin")
+                        .setState("Bavarskiy")
+                        .setStreet("Otto")
+                        .setHouse("55")
+                        .setApartment(78).build(),
+                Address
+                        .builder()
+                        .setCountry("Spain")
+                        .setCity("Barselona")
+                        .setState("Barselonskaya")
+                        .setStreet("Paolo")
+                        .setHouse("68b")
+                        .setApartment(9).build()
+        );
     }
 
     @After
@@ -296,7 +183,7 @@ public class MongoIntegrationTest {
         mongoOperations.dropCollection(Contact.class);
         mongoOperations.dropCollection(Address.class);
         mongoOperations.updateFirst(Query.query(Criteria.where("id").is("contacts")), Update.update("sequence", 0L), Sequence.class);
-        mongoOperations.updateFirst(Query.query(Criteria.where("id").is("address")), Update.update("sequence", 0L), Sequence.class);
+        mongoOperations.updateFirst(Query.query(Criteria.where("id").is("setAddress")), Update.update("sequence", 0L), Sequence.class);
     }
 
     @Test
@@ -334,11 +221,11 @@ public class MongoIntegrationTest {
 
         String oldLastName = contact.getLastName();
         String updatedLastName = "UpdatedLastName";
-        contact.setLastName(updatedLastName);
+        contact = Contact.builder(contact).setLastName(updatedLastName).build();
         contactService.update(contact);
 
-        assertEquals("Expected only one contact with updated last name", 1, contactService.getByPattern(updatedLastName).size());
-        assertEquals("Expected zero contact with old last name", 0, contactService.getByPattern(oldLastName).size());
+        assertEquals("Expected only one contact with updated last setName", 1, contactService.getByPattern(updatedLastName).size());
+        assertEquals("Expected zero contact with old last setName", 0, contactService.getByPattern(oldLastName).size());
     }
 
     @Test
@@ -354,9 +241,11 @@ public class MongoIntegrationTest {
     @Test
     public void testSaveContactsWithAddresses() {
         contacts.forEach(c -> contactService.add(c));
-        assertTrue("Expected only one added contact", contactService.getAll().size() == 1);
+        List<Contact> contactList = contactService.getAll();
+        assertTrue(format("Expected %s added contact",contactList.size()), contactList.size() == 7);
         assertTrue("Expected only one contact with id " + contact.getId(), contactService.get(contact.getId()) != null);
-        assertEquals("Expected 5 unique addresses" + contact.getId(), 5, addressService.getAll().size());
+        List<Address> addresses = addressService.getAll();
+        assertEquals(format("Expected %s unique addresses", addresses.size()), 5, addresses.size());
     }
 
     @Test

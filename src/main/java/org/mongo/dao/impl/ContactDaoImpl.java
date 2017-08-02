@@ -43,7 +43,6 @@ public class ContactDaoImpl extends CrudDaoImpl<Contact> implements ContactDao {
         if (pattern == null) {
             return Collections.emptyList();
         }
-//        return mongoOperations.find(Query.query(Criteria.where("name").regex(pattern).orOperator(Criteria.where("lastName").regex(pattern))), getPersistenceClass());
         return mongoOperations.find(Query.query(new Criteria().orOperator(Criteria.where("name").regex(pattern),Criteria.where("lastName").regex(pattern, "i"))), getPersistenceClass());
     }
 

@@ -1,7 +1,7 @@
 package org.mongo.listener;
 
-import org.mongo.model.Bank;
-import org.mongo.services.BankService;
+import org.mongo.model.Contact;
+import org.mongo.services.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -9,11 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class BankCascadeSaveMongoEventListener extends CascadeSaveMongoEventListener {
     @Autowired
-    private BankService bankService;
+    private ContactService contactService;
 
     protected void updateEntity(Object fieldValue) {
-        if (fieldValue instanceof Bank) {
-            bankService.add((Bank) fieldValue);
+        if (fieldValue instanceof Contact) {
+            Contact newContact = (Contact) fieldValue;
+            if (newContact.getId() == null) {
+                contactService.add(newContact);
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -28,85 +29,99 @@ public class Contact extends Entity implements Serializable {
     @Transient
     private Map<String, String> aggregations;
 
-    public Contact() {
-    }
-
-    public Contact(String name, String lastName, String number, String email) {
-        this.name = name;
-        this.lastName = lastName;
-        this.number = number;
-        this.email = email;
+    private Contact() {
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public Address getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
     public Map getAggregations() {
-        return aggregations;
+        return Collections.unmodifiableMap(aggregations);
     }
 
-    public void setAggregations(Map aggregations) {
-        this.aggregations = aggregations;
-    }
-
-    public void addAggregation(String key, String value) {
-        if (aggregations == null) {
-            aggregations = new HashMap<>();
-        }
-        aggregations.put(key, value);
-    }
-
-    public static Function<Contact,String> getContactName(){
+    public static Function<Contact, String> getContactName() {
         return Contact::getName;
     }
 
-    public static Function<Contact,String> getContactLastName(){
+    public static Function<Contact, String> getContactLastName() {
         return Contact::getLastName;
     }
 
-    public Builder builder() {
-        return new Builder();
+    public static Builder builder() {
+        return builder(new Contact());
     }
-    class Builder{
 
+    public static Builder builder(Contact contact) {
+        return new Builder(contact);
     }
+
+    public static final class Builder {
+        private final Contact contact;
+
+        private Builder(Contact contact) {
+            this.contact = contact;
+        }
+
+        public Builder setName(String name) {
+            contact.name = name;
+            return this;
+        }
+
+        public Builder setLastName(String lastName) {
+            contact.lastName = lastName;
+            return this;
+        }
+
+        public Builder setNumber(String number) {
+            contact.number = number;
+            return this;
+        }
+
+        public Builder setEmail(String email) {
+            contact.email = email;
+            return this;
+        }
+
+        public Builder setAddress(Address address) {
+            contact.address = address;
+            return this;
+        }
+
+        public Builder setAggregations(Map<String,String> aggregations) {
+            contact.aggregations = aggregations;
+            return this;
+        }
+
+        public Builder setAggregation(String key, String value) {
+            if (contact.aggregations == null) {
+                contact.aggregations = new HashMap<>();
+            }
+            contact.aggregations.put(key, value);
+            return this;
+        }
+
+        public Contact build() {
+            return contact;
+        }
+    }
+
     public static class AggregationOptions {
         private final String field;
         private final String alias;

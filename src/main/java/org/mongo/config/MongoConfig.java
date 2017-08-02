@@ -4,6 +4,7 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import org.mongo.listener.BankCascadeSaveMongoEventListener;
 import org.mongo.listener.CascadeSaveMongoEventListener;
 import org.mongo.listener.ContactCascadeSaveMongoEventListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +55,8 @@ public class MongoConfig extends AbstractMongoConfiguration {
         return new ContactCascadeSaveMongoEventListener();
     }
 
-//    @Bean
-//    public CascadeSaveMongoEventListener bankCascadingMongoEventListener() {
-//        return new BankCascadeSaveMongoEventListener();
-//    }
+    @Bean
+    public CascadeSaveMongoEventListener bankCascadingMongoEventListener() {
+        return new BankCascadeSaveMongoEventListener();
+    }
 }

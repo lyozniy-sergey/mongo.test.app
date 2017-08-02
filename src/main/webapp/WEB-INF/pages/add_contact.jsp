@@ -26,27 +26,27 @@
             <td><form:input path="email" /></td>
         </tr>
         <tr>
-            <td><spring:message code="table.contact.address.country"/>:</td>
+            <td><spring:message code="table.address.country"/>:</td>
             <td><form:input path="address.country" /></td>
         </tr>
         <tr>
-            <td><spring:message code="table.contact.address.city"/>:</td>
+            <td><spring:message code="table.address.city"/>:</td>
             <td><form:input path="address.city" /></td>
         </tr>
         <tr>
-            <td><spring:message code="table.contact.address.state"/>:</td>
+            <td><spring:message code="table.address.state"/>:</td>
             <td><form:input path="address.state" /></td>
         </tr>
         <tr>
-            <td><spring:message code="table.contact.address.street"/>:</td>
+            <td><spring:message code="table.address.street"/>:</td>
             <td><form:input path="address.street" /></td>
         </tr>
         <tr>
-            <td><spring:message code="table.contact.address.house"/>:</td>
+            <td><spring:message code="table.address.house"/>:</td>
             <td><form:input path="address.house" /></td>
         </tr>
         <tr>
-            <td><spring:message code="table.contact.address.apartment"/>:</td>
+            <td><spring:message code="table.address.apartment"/>:</td>
             <td><form:input path="address.apartment" /></td>
         </tr>
         <tr>
