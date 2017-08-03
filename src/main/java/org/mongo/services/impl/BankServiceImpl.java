@@ -31,4 +31,8 @@ public class BankServiceImpl extends CrudServiceImpl<Bank> implements BankServic
     public List<Bank> getByPattern(String pattern) {
         return bankDao.getByPattern(pattern);
     }
+
+    public List<Bank> getByContactCount(int count) {
+        return bankDao.getByContactCount(count);
+    }
 }

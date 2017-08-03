@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface BankService extends CrudService<Bank> {
     List<Bank> getByPattern(String pattern);
+
+    List<Bank> getByContactCount(int count);
 }

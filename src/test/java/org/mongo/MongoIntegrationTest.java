@@ -82,6 +82,7 @@ public class MongoIntegrationTest {
                 put("Privatbank", 2);
                 put("Procredit", 1);
                 put("Alfabank", 0);
+                put("Otpbank", 2);
                 put("DB", 3);
             }
         };
@@ -171,8 +172,14 @@ public class MongoIntegrationTest {
                         .setAddress(addresses.get(1)).build(),
                 Bank
                         .builder()
+                        .setName("Otpbank")
+                        .setInfo("Otp Bank Ukraine")
+                        .setContacts(contacts.subList(5, 7))
+                        .setAddress(addresses.get(4)).build(),
+                Bank
+                        .builder()
                         .setName("DB")
-                        .setInfo("Deutch bank Germany")
+                        .setInfo("Deutch Bank Germany")
                         .setContacts(contacts.subList(3, 6))
                         .setAddress(addresses.get(2)).build()
         );
@@ -371,5 +378,20 @@ public class MongoIntegrationTest {
                     assertEquals(format("Expected %s contacts for bank %s", expectedCount, b.getName()), expectedCount, b.getContacts().size());
                 }
         );
+    }
+
+    @Test
+    public void testFindBankContactsByCount() {
+        banks.forEach(b -> bankService.add(b));
+        assertEquals(format("Expected %s banks", banks.size()), banks.size(), bankService.getCount());
+
+        List<Bank> banks = bankService.getByContactCount(2);
+        assertEquals("Expected 2 banks with 2 contacts", 2, banks.size());
+
+        Map<String, Integer> bankContacts = bankContacts();
+        banks.forEach(b -> {
+            int expectedCount = bankContacts.get(b.getName());
+            assertEquals(format("Expected %s contacts for bank %s", expectedCount, b.getName()), expectedCount, b.getContacts().size());
+        });
     }
 }
