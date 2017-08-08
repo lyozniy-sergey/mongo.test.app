@@ -1,5 +1,6 @@
 package org.mongo.config;
 
+import org.mongo.model.validator.ContactValidator;
 import org.mongo.web.BankController;
 import org.mongo.web.ContactController;
 import org.springframework.beans.PropertyEditorRegistrar;
@@ -9,6 +10,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -62,5 +65,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         CustomEditorConfigurer cec = new CustomEditorConfigurer();
         cec.setPropertyEditorRegistrars(new PropertyEditorRegistrar[]{new ContactBeanRegistrar()});
         return cec;
+    }
+
+    @Bean
+    public LocalValidatorFactoryBean validator() {
+        LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
+//        factoryBean.setValidationMessageSource(getMessageSource());
+        return factoryBean;
+    }
+
+    @Bean
+    public Validator contactValidator() {
+        return new ContactValidator();
     }
 }

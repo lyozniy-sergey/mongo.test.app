@@ -4,6 +4,12 @@
 <html>
 <head>
     <title>Add contact</title>
+    <style>
+        .error {
+            color: #ff0000;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
 <form:form method="POST" action="/add/contact" modelAttribute="contact">
@@ -12,10 +18,12 @@
         <tr>
             <td><spring:message code="table.contact.firstName"/>:</td>
             <td><form:input path="name" /></td>
+            <td><form:errors path="name" cssClass="error" /></td>
         </tr>
         <tr>
             <td><spring:message code="table.contact.lastName"/>:</td>
             <td><form:input path="lastName" /></td>
+            <td><form:errors path="lastName" cssClass="error" /></td>
         </tr>
         <tr>
             <td><spring:message code="table.contact.Number"/>:</td>
@@ -24,10 +32,12 @@
         <tr>
             <td><spring:message code="table.contact.email"/>:</td>
             <td><form:input path="email" /></td>
+            <td><form:errors path="email" cssClass="error" /></td>
         </tr>
         <tr>
             <td><spring:message code="table.contact.age"/>:</td>
             <td><form:input path="age" /></td>
+            <td><form:errors path="age" cssClass="error" /></td>
         </tr>
         <tr>
             <td><spring:message code="table.contact.balance"/>:</td>

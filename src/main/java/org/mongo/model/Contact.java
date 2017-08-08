@@ -1,10 +1,14 @@
 package org.mongo.model;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 import org.mongo.listener.CascadeSave;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.DecimalMin;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,11 +22,16 @@ import java.util.function.Function;
 public class Contact extends Entity implements Serializable {
     public static final String COLLECTION_NAME = "contacts";
 
+    @NotEmpty
     private String name;
+    @NotEmpty
     private String lastName;
     private String number;
+    @Email
     private String email;
+    @Range(min = 1, max = 150)
     private Integer age;
+    @DecimalMin(value = "1", message = "table.contact.value.invalid")
     private Double balance;
     @DBRef
     @CascadeSave

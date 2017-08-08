@@ -58,4 +58,21 @@ public class MongoConfig extends AbstractMongoConfiguration {
     public CascadeSaveMongoEventListener bankCascadingMongoEventListener() {
         return new BankCascadeSaveMongoEventListener();
     }
+
+//    @Bean
+//    public ValidatingMongoEventListener validatingMongoEventListener() {
+//        return new ValidatingMongoEventListener(validator());
+//    }
+//
+//    @Bean
+//    public LocalValidatorFactoryBean validator() {
+//        LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
+//        factoryBean.setValidationMessageSource(messageSource);
+//        return factoryBean;
+//    }
+//
+//    @Bean
+//    public Validator contactValidator() {
+//        return new ContactValidator();
+//    }
 }
