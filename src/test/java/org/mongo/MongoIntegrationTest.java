@@ -90,6 +90,7 @@ public class MongoIntegrationTest {
 
     @Before
     public void setUp() throws Exception {
+        cleanDb();
         final List<Address> addresses = createAddresses();
         contacts = createContacts(addresses);
         banks = createBanks(contacts, addresses);
@@ -232,9 +233,17 @@ public class MongoIntegrationTest {
 
     @After
     public void tearDown() throws Exception {
+        cleanDb();
+    }
+
+    private void cleanDb() {
         mongoOperations.dropCollection(Contact.class);
         mongoOperations.dropCollection(Address.class);
         mongoOperations.dropCollection(Bank.class);
+        cleanSequences();
+    }
+
+    private void cleanSequences() {
         mongoOperations.updateFirst(Query.query(Criteria.where("id").is("contacts")), Update.update("sequence", 0L), Sequence.class);
         mongoOperations.updateFirst(Query.query(Criteria.where("id").is("address")), Update.update("sequence", 0L), Sequence.class);
         mongoOperations.updateFirst(Query.query(Criteria.where("id").is("banks")), Update.update("sequence", 0L), Sequence.class);
